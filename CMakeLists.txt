@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.12.1)
 project(pool)
 
 enable_testing()
-set(CMAKE_CXX_STANDARD 11)
+# 14 strandard is for libpqxx.
+# without this lib you can use 11.
+set(CMAKE_CXX_STANDARD 14)
 
 # set(DRIVER "mysql")
 # set(CONN_CFG "user=root;pswd=Asdf123!@#;host=localhost")
