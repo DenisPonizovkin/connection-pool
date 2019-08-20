@@ -13,7 +13,7 @@ add_executable(${TARGET_NAME}
   main.cpp
   ${UNIT_TEST_SOURCE_LIST})
 
-target_link_libraries(${TARGET_NAME} pthread mysqlcppconn)
+target_link_libraries(${TARGET_NAME} pthread mysqlcppconn pqxx pq)
 target_link_libraries(${TARGET_NAME} connection_pool_lib)
 
 target_include_directories(${TARGET_NAME}
