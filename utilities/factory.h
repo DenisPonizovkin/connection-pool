@@ -54,12 +54,12 @@ Factory<Base, Key>::create(const Key & key, Args&& ... args)
 	auto ret = _map.find(key);
 	if (ret == _map.end())
 		throw UnknownKey();
-
 	
 	typedef Function<Base, Args...> FType;
 
 	const FType & creator =
 		dynamic_cast<const FType &>(*(ret->second));
+
 	return ReturnType(creator(std::forward<Args>(args)...));
 }
 //-------------------------------------------------------------------
