@@ -10,4 +10,5 @@ set(CMAKE_CXX_STANDARD 11)
 # add_definitions(-DDRIVER=${DRIVER})
 # add_definitions(-DCONN_CFG=${CONN_CFG})
 
+add_subdirectory(connection_pool)
 add_subdirectory(test)
