@@ -68,8 +68,8 @@ TEST_CASE("Psql connection pool", "[classic]")
 						, const std::string &
 						, const std::string &
 						>("psql", "localhost", "postgres", "postgres", "test");
-	cp::ConnectionPool::instance()->clear();
-	cp::ConnectionPool::instance()->init(n, cf);
+	cp::ConnectionPool::instance().clear();
+	cp::ConnectionPool::instance().init(n, cf);
 
 	SECTION("Check psql success connections")
 	{
@@ -87,7 +87,7 @@ TEST_CASE("Psql connection pool", "[classic]")
 		for (int i = 0; i < n; i++) {
 			threads[i].join();
 		}
-		connection_pool::ConnectionPoolStats stats = cp::ConnectionPool::instance()->getStats();
+		connection_pool::ConnectionPoolStats stats = cp::ConnectionPool::instance().getStats();
 		REQUIRE(stats.freeConnectionsNumber == n);
 	}
 
@@ -104,8 +104,8 @@ TEST_CASE("Mysql connection pool", "[classic]")
 	auto cf = fcdf.create<const std::string &
 						, const std::string &
 						, const std::string &>("mysql", "localhost", "root", "Asdf123!@#");
-	cp::ConnectionPool::instance()->clear();
-	cp::ConnectionPool::instance()->init(n, cf);
+	cp::ConnectionPool::instance().clear();
+	cp::ConnectionPool::instance().init(n, cf);
 
 	SECTION("Check mysql success connections")
 	{
@@ -123,7 +123,7 @@ TEST_CASE("Mysql connection pool", "[classic]")
 		for (int i = 0; i < n; i++) {
 			threads[i].join();
 		}
-		connection_pool::ConnectionPoolStats stats = cp::ConnectionPool::instance()->getStats();
+		connection_pool::ConnectionPoolStats stats = cp::ConnectionPool::instance().getStats();
 		REQUIRE(stats.freeConnectionsNumber == n);
 	}
 

@@ -23,7 +23,7 @@ public:
 	ConnectionHandler()
 	{
 		try {
-			_conn = cp::ConnectionPool::instance()->getConnection();
+			_conn = cp::ConnectionPool::instance().getConnection();
 		} catch(const std::exception & e) {
 			std::cout << e.what();
 			throw e;
@@ -32,7 +32,7 @@ public:
 	//----------------------------------------------------------------------------
 	virtual ~ConnectionHandler()
 	{
-		cp::ConnectionPool::instance()->putConnection(_conn);
+		cp::ConnectionPool::instance().putConnection(_conn);
 	}
 	//----------------------------------------------------------------------------
 	int read(const std::string & q) const
