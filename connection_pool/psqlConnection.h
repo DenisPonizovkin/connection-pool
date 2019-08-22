@@ -28,9 +28,12 @@ private:
 	{
 		pqxx::work txn{*_conn};
 		pqxx::result r = txn.exec(q);
+		int rslt = 0;
 		for (auto row: r) {
-			return row[0].as<int>();
+			rslt = row[0].as<int>();
+			break;
 		}
+		return rslt;
 	}
 
 public:

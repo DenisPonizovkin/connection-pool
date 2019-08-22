@@ -64,9 +64,12 @@ private:
 		_conn->setSchema("test");
 		std::shared_ptr<sql::Statement> stmt(_conn->createStatement());
 		std::shared_ptr<sql::ResultSet> res(stmt->executeQuery(q));
+		int rslt = 0;
 		while (res->next()) {
-			return res->getInt(1);
+			rslt = res->getInt(1);
+			break;
 		}
+		return rslt;
 	}
 
 public:
