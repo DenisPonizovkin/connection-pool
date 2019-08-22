@@ -9,11 +9,10 @@ class Singleton
 protected:
 	Singleton() = default;
 
-private:
+public:
 	Singleton(Singleton const&) = delete;
 	Singleton& operator=(Singleton const&) = delete;
 
-public:
 	virtual ~Singleton() = default;
 
 	static T& instance()

@@ -14,11 +14,10 @@ class ConnectionHandler
 private:
 	ConnPtr _conn;
 
-private:
+public:
 	ConnectionHandler(ConnectionHandler const&) = delete;
 	ConnectionHandler& operator=(ConnectionHandler const&) = delete;
 
-public:
 	//----------------------------------------------------------------------------
 	ConnectionHandler()
 	{
