@@ -57,7 +57,7 @@ public:
 		return stats;
 	}
 	//----------------------------------------------------------------------------
-	ConnectionPool() { }
+	ConnectionPool() = default;
 	//----------------------------------------------------------------------------
 	void clear()
 	{
@@ -75,7 +75,7 @@ public:
 		}
 	}
 	//----------------------------------------------------------------------------
-	~ConnectionPool() { };
+	virtual ~ConnectionPool() = default;
 	//----------------------------------------------------------------------------
 	// retrieve connection from pool
 	ConnPtr getConnection()
@@ -98,7 +98,7 @@ public:
 	}
 	//----------------------------------------------------------------------------
 	// get back connection
-	void putConnection(ConnPtr conn)
+	void putConnection(ConnPtr conn) noexcept
 	{
 		std::lock_guard<std::mutex> lock(this->_mutex);
 
