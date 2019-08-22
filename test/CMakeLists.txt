@@ -18,7 +18,14 @@ target_link_libraries(${TARGET_NAME} connection_pool_lib)
 
 target_include_directories(${TARGET_NAME}
   PUBLIC
-  "/usr/local/include/;${PROJECT_SOURCE_DIR}/connection_pool;${PROJECT_SOURCE_DIR}/utilities")
+  "/usr/local/include/;${PROJECT_SOURCE_DIR}/connection_pool;${PROJECT_SOURCE_DIR}/utilities"
+  Catch2::Catch2
+  )
+  
+find_package(Catch2 REQUIRED)
+include(CTest)
+include(Catch)
+catch_discover_tests(${TARGET_NAME})
 
 add_test(
   NAME ${TARGET_NAME}
