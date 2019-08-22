@@ -58,6 +58,17 @@ class MySQLConnection : public Connection
 private:
 	SqlConnPtr _conn;
 
+private:
+	virtual int _read(const std::string & q) const
+	{
+		_conn->setSchema("test");
+		std::shared_ptr<sql::Statement> stmt(_conn->createStatement());
+		std::shared_ptr<sql::ResultSet> res(stmt->executeQuery(q));
+		while (res->next()) {
+			return res->getInt(1);
+		}
+	}
+
 public:
 	~MySQLConnection()
 	{
@@ -80,16 +91,6 @@ public:
 			stmt->executeQuery();
 		} catch(const std::exception & e) {
 			std::cout << e.what() << endl;
-		}
-	}
-
-	int read(const std::string & q) const
-	{
-		_conn->setSchema("test");
-		std::shared_ptr<sql::Statement> stmt(_conn->createStatement());
-		std::shared_ptr<sql::ResultSet> res(stmt->executeQuery(q));
-		while (res->next()) {
-			return res->getInt(1);
 		}
 	}
 };

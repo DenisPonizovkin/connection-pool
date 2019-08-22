@@ -23,26 +23,27 @@ class PsqlConnection : public Connection
 private:
 	pqxx::connection * _conn;
 
-public:
-	~PsqlConnection() { _conn->disconnect(); }
-
-	void conn(pqxx::connection * c) {_conn = c;}
-
-	template<typename ... Args>
-		void write(const std::string & q, Args ... args)
-		{
-			pqxx::work w(*_conn);
-			w.exec(q);
-			w.commit();
-		}
-
-	int read(const std::string & q) const
+private:
+	virtual int _read(const std::string & q) const
 	{
 		pqxx::work txn{*_conn};
 		pqxx::result r = txn.exec(q);
 		for (auto row: r) {
 			return row[0].as<int>();
 		}
+	}
+
+public:
+	~PsqlConnection() { _conn->disconnect(); }
+
+	void conn(pqxx::connection * c) {_conn = c;}
+
+	template<typename ... Args>
+	void write(const std::string & q, Args ... args)
+	{
+		pqxx::work w(*_conn);
+		w.exec(q);
+		w.commit();
 	}
 };
 

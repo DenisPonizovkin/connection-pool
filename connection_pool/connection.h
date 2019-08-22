@@ -7,15 +7,16 @@ namespace connection_pool
 // The class represents base class of a connection to a database.
 class Connection
 {
+private:
+	virtual int _read(const std::string & q) const = 0;
 
 public:
-	Connection(){};
-	virtual ~Connection(){};
+	virtual ~Connection() = default;
 
 	template<typename ... Args>
 	void write(Args&& ... args) { /*TODO: throw exception */; }
 
-	int read(const std::string & q) const { /*TODO: throw exception */; }
+	int read(const std::string & q) const { return _read(q); }
 };
 
 } // namespace connection_pool
