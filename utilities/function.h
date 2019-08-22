@@ -10,7 +10,7 @@ template<typename BaseReturnedType>
 class FunctionBase
 {
 public:
-	virtual ~FunctionBase() {}
+	virtual ~FunctionBase() = default;
 };
 
 template<typename BaseReturnedType, typename ... Args>

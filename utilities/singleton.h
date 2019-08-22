@@ -7,14 +7,14 @@ template<typename T>
 class Singleton
 {
 protected:
-	Singleton() {}
+	Singleton() = default;
 
 private:
 	Singleton(Singleton const&) = delete;
 	Singleton& operator=(Singleton const&) = delete;
 
 public:
-	virtual ~Singleton() {}
+	virtual ~Singleton() = default;
 
 	static T& instance()
 	{
