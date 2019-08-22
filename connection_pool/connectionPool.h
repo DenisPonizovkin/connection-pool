@@ -47,12 +47,12 @@ public:
 	//----------------------------------------------------------------------------
 	ConnectionPoolStats getStats()
 	{
-		std::lock_guard<std::mutex> lock(this->_mutex);
+		std::lock_guard<std::mutex> lock(_mutex);
 
 		// get stats
 		ConnectionPoolStats stats;
-		stats.freeConnectionsNumber = this->_pool.size();
-		stats.inUsedNumber = this->_inUsed.size();			
+		stats.freeConnectionsNumber = _pool.size();
+		stats.inUsedNumber = _inUsed.size();			
 
 		return stats;
 	}
@@ -61,17 +61,17 @@ public:
 	//----------------------------------------------------------------------------
 	void clear()
 	{
-		this->_pool.clear();
+		_pool.clear();
 	}
 	//----------------------------------------------------------------------------
 	void init(uint16_t poolSize, std::shared_ptr<ConnectionFactory> factory)
 	{
-		this->_poolSize = poolSize;
-		this->_factory = factory;
+		_poolSize = poolSize;
+		_factory = factory;
 
 		// fill the pool
-		while(this->_pool.size() < this->_poolSize) {
-			this->_pool.push_back(this->_factory->create());
+		while(_pool.size() < _poolSize) {
+			_pool.push_back(_factory->create());
 		}
 	}
 	//----------------------------------------------------------------------------
@@ -80,33 +80,33 @@ public:
 	// retrieve connection from pool
 	ConnPtr getConnection()
 	{
-		std::lock_guard<std::mutex> lock(this->_mutex);
+		std::lock_guard<std::mutex> lock(_mutex);
 
 		// check for a free connection
-		if (!this->_pool.size()) {
+		if (!_pool.size()) {
 			// Nothing available
 			throw ConnectionUnavailable();
 		}
 
 		// take one off the front
-		std::shared_ptr<Connection>conn = this->_pool.front();
-		this->_pool.pop_front();
+		std::shared_ptr<Connection>conn = _pool.front();
+		_pool.pop_front();
 
 		// add it to the inUsed list
-		this->_inUsed.insert(conn);
+		_inUsed.insert(conn);
 		return conn;
 	}
 	//----------------------------------------------------------------------------
 	// get back connection
 	void putConnection(ConnPtr conn) noexcept
 	{
-		std::lock_guard<std::mutex> lock(this->_mutex);
+		std::lock_guard<std::mutex> lock(_mutex);
 
 		// push back the connection onto the pool
-		this->_pool.push_back(std::static_pointer_cast<Connection>(conn));
+		_pool.push_back(std::static_pointer_cast<Connection>(conn));
 
 		// remove from used
-		this->_inUsed.erase(conn);
+		_inUsed.erase(conn);
 	};
 };
 
