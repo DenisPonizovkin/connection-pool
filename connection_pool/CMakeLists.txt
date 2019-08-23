@@ -6,10 +6,12 @@ find_library(MYSQL_CONN_LIB mysqlcppconn)
 if (NOT MYSQL_CONN_LIB)
 	message("Install mysql connector library")
 endif()
+
 find_library(PQXX_LIB REQUIRED)
 if (NOT PQXX_LIB)
 	message("Install pqxx library")
 endif()
+
 find_library(PQ_LIB pq)
 if (NOT PQ_LIB)
 	message("Install pq library")
@@ -17,7 +19,7 @@ endif()
 
 ADD_LIBRARY(${TARGET_NAME}
 			STATIC
-			connectionHandler.cpp)
+			dummy.cpp)
 
 target_include_directories(${TARGET_NAME}
   PUBLIC

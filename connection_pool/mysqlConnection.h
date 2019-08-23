@@ -13,9 +13,7 @@
 #include <vector>
 
 #include <connectionPool.h>
-#include <variadicTemplateType.h>
-
-#include <iostream>
+#include <writer.h>
 
 using namespace std;
 

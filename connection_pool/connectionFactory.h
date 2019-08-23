@@ -7,15 +7,17 @@
 
 namespace connection_pool
 {
+
+using ConnPtr = std::shared_ptr<Connection>;
+
 // The class represents base class of a factory which creates a connection.
 class ConnectionFactory
 {
 private:
-	virtual std::shared_ptr<Connection> _create() = 0;
+	virtual ConnPtr _create() = 0;
 
 public:
-	// NVI
-	std::shared_ptr<Connection> create() {return _create();}
+	ConnPtr create() {return _create();}
 };
 
 } // namespace connection_pool

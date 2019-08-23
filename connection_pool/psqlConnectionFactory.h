@@ -27,10 +27,10 @@ private:
        		<< " password=" << _password
        		<< " dbname=" << _dbname;
 
-		std::shared_ptr<PsqlConnection> c(new PsqlConnection());
+		PsqlConnection * c = new PsqlConnection();
 		pqxx::connection *conn = new pqxx::connection(connString.str());
 		c->conn(conn);
-		return std::static_pointer_cast<Connection>(c);
+		return ConnPtr(c);
 	}
 
 public:

@@ -14,8 +14,6 @@
 namespace connection_pool
 {
 
-using ConnPtr = std::shared_ptr<Connection>;
-
 //----------------------------------------------------------------------------
 // The exception thrown when connection can't be done.
 struct ConnectionUnavailable : std::exception
@@ -103,7 +101,8 @@ public:
 		std::lock_guard<std::mutex> lock(_mutex);
 
 		// push back the connection onto the pool
-		_pool.push_back(std::static_pointer_cast<Connection>(conn));
+		// _pool.push_back(std::static_pointer_cast<Connection>(conn));
+		_pool.push_back(conn);
 
 		// remove from used
 		_inUsed.erase(conn);

@@ -14,9 +14,13 @@ public:
 	virtual ~Connection() = default;
 
 	template<typename ... Args>
-	void write(Args&& ... args) { /*TODO: throw exception */; }
+	void write(const std::string &, Args&& ... args)
+	{
+		static_assert(true, "Define write method");
+	}
 
 	int read(const std::string & q) const { return _read(q); }
+
 };
 
 } // namespace connection_pool

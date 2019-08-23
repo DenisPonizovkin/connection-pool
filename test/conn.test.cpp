@@ -3,11 +3,11 @@
 #include <vector>
 #include <thread>
 
-#include <connectionHandler.h>
 #include <factory.h>
 #include <factoryConnectionDriver.h>
 #include <mysqlConnectionFactory.h>
 #include <psqlConnectionFactory.h>
+#include <query.h>
 
 namespace cp = connection_pool;
 
@@ -20,8 +20,8 @@ const std::string q = "select count(*) from new_table";
 void connectMysql()
 {
 	try {
-		cp::ConnectionHandler<cp::MySQLConnection> ch;
-		ch.write<int>(
+		cp::Query<cp::MySQLConnection, int> q;
+		q.write(
 				std::string("INSERT INTO new_table(id) VALUES (?);"), 1
 			);
 	}  catch (const std::exception & e) {
@@ -32,8 +32,8 @@ void connectMysql()
 void connectPsql()
 {
 	try {
-		cp::ConnectionHandler<cp::PsqlConnection> ch;
-		ch.write<>(
+		cp::Query<cp::PsqlConnection> q;
+		q.write(
 				std::string("INSERT INTO new_table(id) VALUES (1);")
 			);
 	}  catch (const std::exception & e) {
@@ -75,8 +75,8 @@ TEST_CASE("Psql connection pool", "[classic]")
 	{
 		{
 			// in section for freeing
-			cp::ConnectionHandler<cp::PsqlConnection> ch;
-			currentRecordsNumber = ch.read(q);
+			cp::Query<cp::PsqlConnection> query;
+			currentRecordsNumber = query.read(q);
 		}
 
 		std::thread threads[n];
@@ -93,8 +93,8 @@ TEST_CASE("Psql connection pool", "[classic]")
 
 	SECTION("Check write/read")
 	{
-		cp::ConnectionHandler<cp::PsqlConnection> ch;
-		REQUIRE(ch.read(q) == currentRecordsNumber + n);
+		cp::Query<cp::PsqlConnection> query;
+		REQUIRE(query.read(q) == currentRecordsNumber + n);
 	}
 }
 
@@ -111,8 +111,8 @@ TEST_CASE("Mysql connection pool", "[classic]")
 	{
 		{
 			// in section for freeing
-			cp::ConnectionHandler<cp::MySQLConnection> ch;
-			currentRecordsNumber = ch.read(q);
+			cp::Query<cp::MySQLConnection> query;
+			currentRecordsNumber = query.read(q);
 		}
 
 		std::thread threads[n];
@@ -129,7 +129,7 @@ TEST_CASE("Mysql connection pool", "[classic]")
 
 	SECTION("Check write/read")
 	{
-		cp::ConnectionHandler<cp::MySQLConnection> ch;
-		REQUIRE(ch.read(q) == currentRecordsNumber + n);
+		cp::Query<cp::MySQLConnection> query;
+		REQUIRE(query.read(q) == currentRecordsNumber + n);
 	}
 }

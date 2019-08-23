@@ -31,7 +31,7 @@ private:
 		sql::Driver *driver = get_driver_instance();
 
 		// Create the connection
-		MySqlConnPtr c(new MySQLConnection());
+		MySQLConnection * c = new MySQLConnection();
 
 		// Connect
 		c->conn(SqlConnPtr(
@@ -42,7 +42,7 @@ private:
 					)
 				)
 		);
-		return std::static_pointer_cast<Connection>(c);
+		return ConnPtr(c);
 	}
 
 public:
